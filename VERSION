@@ -1,0 +1,12 @@
+# ==============================================================================
+# ASE - Antares Simulation Engine
+# Version Registry (SSOT - Single Source of Truth)
+# ==============================================================================
+
+ASE_ADP_GTK=00.00.01.00001
+ASE_ADP_GTK_NAME=GTKmm/Adwaita Adapter
+ASE_ADP_GTK_DESC=Third-party isolation for gtkmm-4 and libadwaita - the only place gtkmm subclassing is permitted. Clients import ase::adp::gtk::* exclusively.
+ASE_ADP_GTK_LAYER=adapter
+ASE_ADP_GTK_STATUS=stub
+ASE_ADP_GTK_CREATED=2026-04-13
+ASE_ADP_GTK_UPDATED=2026-04-13
