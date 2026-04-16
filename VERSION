@@ -2,11 +2,47 @@
 # ASE - Antares Simulation Engine
 # Version Registry (SSOT - Single Source of Truth)
 # ==============================================================================
-
+#
+# VERSION FORMAT: MM.mm.pp.BBBBB (e.g., 00.02.14.00127)
+#   MM    = MAJOR (manual, 00 until 1.0 release)
+#   mm    = MINOR (commits / 50)
+#   pp    = PATCH (commits % 50)
+#   BBBBB = BUILD (total commits)
+#
+# FORMAT per Component:
+#   ASE_{ABBR}=00.02.14.00127
+#   ASE_{ABBR}_NAME=Full Name
+#   ASE_{ABBR}_DESC=Short description
+#   ASE_{ABBR}_LAYER=0-5
+#   ASE_{ABBR}_STATUS=seed|poc|init|core|feat|refine|alpha|beta|stable
+#   ASE_{ABBR}_CREATED=YYYY-MM-DD
+#   ASE_{ABBR}_UPDATED=YYYY-MM-DD
+#
+# LAYERS:
+#   0 = Foundation (no ECS dependency)
+#   1 = Core (ECS, logging, databases, serialization)
+#   2 = Kernel (game loop, module loader, scheduler)
+#   3 = Modules (game systems, L3 inter-module via Hub only)
+#   4 = Plugins (optional, hot-loadable, L4 uses SDK)
+#   5 = Servers & Clients (executables)
+#
+# STATUS (auto-calculated from commits, max=refine):
+#   seed   = <5 commits, first code landed
+#   poc    = 5-15 commits, proof of concept
+#   init   = 15-30 commits, initial development
+#   core   = 30-60 commits, core functionality
+#   feat   = 60-100 commits, feature development
+#   refine = 100+ commits, refinement (MAX AUTO)
+# STATUS (manual only):
+#   alpha  = Feature complete (set manually)
+#   beta   = API stable (set manually)
+#   stable = Production ready (set manually)
+#
+# ==============================================================================
 ASE_ADP_GTK=00.00.01.00001
-ASE_ADP_GTK_NAME=GTKmm/Adwaita Adapter
-ASE_ADP_GTK_DESC=Third-party isolation for gtkmm-4 and libadwaita - the only place gtkmm subclassing is permitted. Clients import ase::adp::gtk::* exclusively.
-ASE_ADP_GTK_LAYER=adapter
-ASE_ADP_GTK_STATUS=stub
-ASE_ADP_GTK_CREATED=2026-04-13
-ASE_ADP_GTK_UPDATED=2026-04-13
+ASE_ADP_GTK_NAME=ASE Adp Gtk
+ASE_ADP_GTK_DESC=
+ASE_ADP_GTK_LAYER=5
+ASE_ADP_GTK_STATUS=seed
+ASE_ADP_GTK_CREATED=2026-04-15
+ASE_ADP_GTK_UPDATED=2026-04-15
