@@ -39,10 +39,10 @@
 #   stable = Production ready (set manually)
 #
 # ==============================================================================
-ASE_ADP_GTK=00.00.02.00002
+ASE_ADP_GTK=00.00.03.00003
 ASE_ADP_GTK_NAME=ASE Adp Gtk
 ASE_ADP_GTK_DESC=
 ASE_ADP_GTK_LAYER=5
 ASE_ADP_GTK_STATUS=seed
-ASE_ADP_GTK_CREATED=2026-04-15
-ASE_ADP_GTK_UPDATED=2026-04-16
+ASE_ADP_GTK_CREATED=2026-05-11
+ASE_ADP_GTK_UPDATED=2026-05-11
