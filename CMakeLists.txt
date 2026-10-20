@@ -45,6 +45,19 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-4.0)
 pkg_check_modules(LIBADW REQUIRED IMPORTED_TARGET libadwaita-1)
 
+# ── Foundation dependencies (built standalone if not already in scope) ──
+# The folder picker lists and resolves paths through ase-fileio; both are header-only L0 units.
+
+if(NOT TARGET ase::fileio)
+    set(ASE_FOUNDATION_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../foundation)
+    add_subdirectory(${ASE_FOUNDATION_PATH}/ase-fileio ${CMAKE_BINARY_DIR}/_deps/ase-fileio-build)
+endif()
+
+if(NOT TARGET ase::containers)
+    set(ASE_FOUNDATION_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../foundation)
+    add_subdirectory(${ASE_FOUNDATION_PATH}/ase-containers ${CMAKE_BINARY_DIR}/_deps/ase-containers-build)
+endif()
+
 # ── Adapter library ─────────────────────────────────────────────────
 # Implementations are grouped by domain - one .cpp per logical area.
 add_library(ase-adp-gtk STATIC
@@ -58,10 +71,14 @@ add_library(ase-adp-gtk STATIC
     src/gtk_style.cpp         # CssProvider
     src/adw_window.cpp        # Adw Window + ToolbarView + HeaderBar + ViewStack + ViewSwitcher + StyleManager
     src/adw_preferences.cpp   # PreferencesPage + Group + SwitchRow + EntryRow + ComboRow + SpinRow
+    src/adw_folder_picker.cpp # usecase:101129 - choose a folder: the modal picker of the native clients
+    src/adw_cockpit.cpp       # usecase:101134 - lay out settings cells: section strips, cells, rows
 
     # ── Public headers (umbrella) ──
     include/ase/adp/gtk/gtk.hpp
     include/ase/adp/adw/adw.hpp
+    include/ase/adp/adw/folder_picker.hpp
+    include/ase/adp/adw/cockpit.hpp
 )
 add_library(ase::adp::gtk ALIAS ase-adp-gtk)
 
@@ -71,6 +88,9 @@ target_include_directories(ase-adp-gtk
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
+        # design_tokens.hpp (ase::theme spacing) for the folder picker and the cockpit cells -
+        # the same generated header both native clients read
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../clients/sha-client-web/sha-web-console/generated
 )
 
 target_compile_features(ase-adp-gtk PUBLIC cxx_std_20)
@@ -79,6 +99,9 @@ target_link_libraries(ase-adp-gtk
     PUBLIC
         PkgConfig::GTKMM
         PkgConfig::LIBADW
+        ase::containers      # cockpit.hpp names ase::containers::Vector in its interface
+    PRIVATE
+        ase::fileio          # folder picker: path_exists, is_directory, list_dir, absolute_normalized
 )
 
 include(GNUInstallDirs)
